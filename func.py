@@ -19,8 +19,11 @@ def handler(ctx, data: io.BytesIO = None):
 
     logging.getLogger().info("Inside Python Hello World function")
     bucket_handler = BucketHandler(signer)
+    namespace = bucket_handler.client.get_namespace().data
+    print(namespace)
+    logging.getLogger().info(namespace)
     logging.getLogger().info(bucket_handler.list_objects(
-        'axbqhk0rrkra',  'workshop-data-lake-client-1'))
+        'axbqhk0rrkra', 'workshop-data-lake-client-1'))
 
     return response.Response(
         ctx, response_data=json.dumps(
