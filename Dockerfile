@@ -1,4 +1,4 @@
-FROM fnproject/python:3.9-dev as build-stage
+FROM fnproject/python:3.9-dev as builder
 WORKDIR /function
 ADD requirements.txt /function/
 
@@ -9,8 +9,8 @@ ADD . /function/
 RUN rm -fr /function/.pip_cache
 FROM fnproject/python:3.9
 WORKDIR /function
-COPY --from=build-stage /python /python
-COPY --from=build-stage /function /function
+COPY --from=builder /python /python
+COPY --from=builder /function /function
 RUN chmod -R o+r /function
 ENV PYTHONPATH=/function:/python
 ENTRYPOINT ["/python/bin/fdk", "/function/func.py", "handler"]
