@@ -9,9 +9,10 @@ from utils.safe_io import BucketHandler
 
 
 def handler(ctx, data: io.BytesIO = None):
-    signer = oci.auth.signers.get_resource_principals_signer()
-    logging.getLogger().info('signer')
-    logging.getLogger().info(signer)
+    # signer = oci.auth.signers.get_resource_principals_signer()
+    config = oci.config.from_file()
+    # logging.getLogger().info('signer')
+    # logging.getLogger().info(signer)
     name = "World"
     try:
         body: ObjectCreateEventPayload = json.loads(data.getvalue())
@@ -21,7 +22,7 @@ def handler(ctx, data: io.BytesIO = None):
 
     logging.getLogger().info("Inside Python Hello World function")
 
-    bucket_handler = BucketHandler(signer)
+    bucket_handler = BucketHandler(config)
     namespace = bucket_handler.client.get_namespace().data
 
     buckets = bucket_handler.client.list_buckets(
