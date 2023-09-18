@@ -23,6 +23,11 @@ def handler(ctx, data: io.BytesIO = None):
 
     bucket_handler = BucketHandler(signer)
     namespace = bucket_handler.client.get_namespace().data
+
+    buckets = bucket_handler.client.list_buckets(
+        namespace, 'ocid1.compartment.oc1..aaaaaaaazpz6o5zqrptume5fnorrzsavff6n35dl34xrfdxusbroxhsohvoa')
+    logging.getLogger().info(buckets.data)
+
     objects = bucket_handler.list_objects(
         namespace, 'workshop-data-lake-client-1')
     logging.getLogger().info(objects.data)
