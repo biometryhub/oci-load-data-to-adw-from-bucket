@@ -9,6 +9,8 @@ from utils.safe_io import BucketHandler
 
 
 def handler(ctx, data: io.BytesIO = None):
+    config = oci.config.from_file()
+    logging.getLogger().info(config)
     signer = oci.auth.signers.get_resource_principals_signer()
     name = "World"
     try:
@@ -22,8 +24,9 @@ def handler(ctx, data: io.BytesIO = None):
     namespace = bucket_handler.client.get_namespace().data
     print(namespace)
     logging.getLogger().info(namespace)
-    logging.getLogger().info(bucket_handler.list_objects(
-        'axbqhk0rrkra', 'workshop-data-lake-client-1'))
+    objects = bucket_handler.list_objects(
+        'axbqhk0rrkra', 'workshop-data-lake-client-1')
+    logging.getLogger().info(objects.data)
 
     return response.Response(
         ctx, response_data=json.dumps(
