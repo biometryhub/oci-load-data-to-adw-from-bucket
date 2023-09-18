@@ -10,7 +10,7 @@ from utils.safe_io import BucketHandler
 
 def handler(ctx, data: io.BytesIO = None):
     # signer = oci.auth.signers.get_resource_principals_signer()
-    config = oci.config.from_file()
+    config = oci.config.from_file('./.oci/config')
     # logging.getLogger().info('signer')
     # logging.getLogger().info(signer)
     name = "World"
