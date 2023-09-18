@@ -17,6 +17,7 @@ class Data(TypedDict):
     compartmentId: str
     compartmentName: str
     resourceName: str
+    # object path
     resourceId: str
     availabilityDomain: str
     additionalDetails: AdditionalDetails
