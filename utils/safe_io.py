@@ -6,4 +6,4 @@ class BucketHandler:
         self.client = oci.object_storage.ObjectStorageClient(config=config)
 
     def list_objects(self, namespace: str, bucket_name: str):
-        self.client.list_objects(namespace, bucket_name)
+        return self.client.list_objects(namespace, bucket_name).data
