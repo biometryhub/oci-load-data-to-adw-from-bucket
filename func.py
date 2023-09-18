@@ -9,6 +9,7 @@ from utils.safe_io import BucketHandler
 
 
 def handler(ctx, data: io.BytesIO = None):
+    # TODO: convert to resource principal
     # signer = oci.auth.signers.get_resource_principals_signer()
     config = oci.config.from_file('./.oci/config')
     name = "World"
@@ -23,16 +24,11 @@ def handler(ctx, data: io.BytesIO = None):
     bucket_handler = BucketHandler(config)
     namespace = bucket_handler.client.get_namespace().data
 
-    # buckets = bucket_handler.client.list_buckets(
-    #     namespace,
-    #     'ocid1.compartment.oc1..aaaaaaaazpz6o5zqrptume5fnorrzsavff6n35dl34xrfdxusbroxhsohvoa').data
-    # logging.getLogger().info(buckets.data)
-
     objects = bucket_handler.list_objects(
         namespace, 'workshop-data-lake-client-1')
     logging.getLogger().info(objects)
 
     return response.Response(
-        ctx, response_data=json.dumps({"message": objects}),
+        ctx, response_data=json.dumps({"message": 'yay'}),
         headers={"Content-Type": "application/json"}
     )

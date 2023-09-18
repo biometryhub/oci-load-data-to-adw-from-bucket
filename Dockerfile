@@ -10,7 +10,6 @@ RUN rm -fr /function/.pip_cache
 
 FROM fnproject/python:3.9
 WORKDIR /function
-# ADD ./.oci ./.oci
 COPY --from=builder /python /python
 COPY --from=builder /function /function
 RUN chmod -R o+r /function
