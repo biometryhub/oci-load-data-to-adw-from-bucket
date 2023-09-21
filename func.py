@@ -29,6 +29,9 @@ def handler(ctx, data: io.BytesIO = None):
 
     logging.getLogger().info(f'Client {client_number} is triggering this job.')
 
+    logging.getLogger().info('object_path')
+    logging.getLogger().info(object_path)
+
     bucket_handler = BucketHandler(credential)
 
     objects = bucket_handler.list_objects(bucket_name)
