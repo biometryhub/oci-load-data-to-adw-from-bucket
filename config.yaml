@@ -1,4 +1,7 @@
 bucket:
   persistence: workshop-data-lake-persistence
   client:
+    # regex pattern
     pattern: workshop-data-lake-client-(\d+)
+    # regex pattern
+    valid_file: .*.csv

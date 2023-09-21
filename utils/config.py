@@ -1,5 +1,6 @@
 class CLIENT:
     PATTERN = ''
+    VALID_FILE = ''
 
 
 class BUCKET:

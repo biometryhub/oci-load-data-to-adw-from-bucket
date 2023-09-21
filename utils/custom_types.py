@@ -16,8 +16,8 @@ class AdditionalDetails(TypedDict):
 class Data(TypedDict):
     compartmentId: str
     compartmentName: str
-    resourceName: str
     # object path
+    resourceName: str
     resourceId: str
     availabilityDomain: str
     additionalDetails: AdditionalDetails

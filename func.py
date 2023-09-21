@@ -5,8 +5,9 @@ import oci
 from fdk import response
 
 from utils.custom_types import ObjectCreateEventPayload
+from utils.processor import create_target_path, process_df
 from utils.safe_io import BucketHandler, parse_config
-from utils.utils import validate_bucket
+from utils.utils import read_bytes, validate_bucket
 
 
 def handler(ctx, data: io.BytesIO = None):
@@ -18,9 +19,7 @@ def handler(ctx, data: io.BytesIO = None):
     try:
         body: ObjectCreateEventPayload = json.loads(data.getvalue())
         bucket_name = body['data']['additionalDetails']['bucketName']
-        object_path = body['data']['resourceId']
-        logging.getLogger().info('payload')
-        logging.getLogger().info(str(body))
+        object_path = body['data']['resourceName']
     except (Exception, ValueError) as ex:
         logging.getLogger().info('error parsing json payload: ' + str(ex))
 
@@ -31,18 +30,16 @@ def handler(ctx, data: io.BytesIO = None):
 
     logging.getLogger().info(f'Client {client_number} is triggering this job.')
 
-    logging.getLogger().info('object_path')
-    logging.getLogger().info(object_path)
-
     bucket_handler = BucketHandler(credential)
+    req = bucket_handler.get_object(bucket_name, object_path)
+    df = read_bytes(req.data.content)
+    process_df(df)
+    target_path = create_target_path(client_number, object_path)
+    bucket_handler.persist_object(df.to_parquet(), target_path)
 
-    objects = bucket_handler.list_objects(bucket_name)
-    logging.getLogger().info(len(objects))
-
-    is_directory = bucket_handler.is_directory(bucket_name, object_path)
-    logging.getLogger().info(is_directory)
+    logging.getLogger().info('some process')
 
     return response.Response(
-        ctx, response_data=json.dumps({"message": 'yay'}),
+        ctx, response_data=json.dumps({"message": 'Success!'}),
         headers={"Content-Type": "application/json"}
     )
