@@ -19,6 +19,8 @@ def handler(ctx, data: io.BytesIO = None):
         body: ObjectCreateEventPayload = json.loads(data.getvalue())
         bucket_name = body['data']['additionalDetails']['bucketName']
         object_path = body['data']['resourceId']
+        logging.getLogger().info('payload')
+        logging.getLogger().info(str(body))
     except (Exception, ValueError) as ex:
         logging.getLogger().info('error parsing json payload: ' + str(ex))
 
