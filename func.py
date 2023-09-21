@@ -4,7 +4,7 @@ import logging
 import oci
 from fdk import response
 
-from custom_types import ObjectCreateEventPayload
+from utils.custom_types import ObjectCreateEventPayload
 from utils.safe_io import BucketHandler, parse_config
 from utils.utils import validate_bucket
 

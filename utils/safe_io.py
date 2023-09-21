@@ -1,7 +1,7 @@
 import oci
 import yaml
 from .config import CONFIG
-from ..custom_types import Objects
+from .custom_types import Objects
 
 
 def parse_config(config_path: str):
