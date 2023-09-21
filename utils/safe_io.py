@@ -19,12 +19,13 @@ class BucketHandler:
 
     def list_objects(self, bucket_name: str, **kwargs):
         return self.client.list_objects(self.namespace, bucket_name, **kwargs) \
-            .data['objects']
+            .data \
+            .objects
 
     def is_directory(self, bucket_name: str, object_path: str):
         objects: Objects = self.list_objects(bucket_name, prefix=object_path)
         for object_ in objects:
-            name = object_['name']
+            name = object_.name
             if name.startswith(object_path) and name.endswith('/'):
                 return True
 
