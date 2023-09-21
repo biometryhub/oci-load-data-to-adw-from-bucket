@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import List, TypedDict
 
 
 class Extensions(TypedDict):
@@ -33,3 +33,17 @@ class ObjectCreateEventPayload(TypedDict):
     contentType: str
     extensions: Extensions
     data: Data
+
+
+class ObjectInfo(TypedDict):
+    archival_state: str
+    etag: str
+    md5: str
+    name: str
+    size: str
+    storage_tier: str
+    time_created: str
+    time_modified: str
+
+
+Objects = List[ObjectInfo]

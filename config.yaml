@@ -1,0 +1,4 @@
+bucket:
+  persistence: workshop-data-lake-persistence
+  client:
+    pattern: workshop-data-lake-client-(\d+)
