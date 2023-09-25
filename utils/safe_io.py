@@ -73,6 +73,8 @@ class DatabaseHandler:
             user=user, password=password, dsn=dsn, config_dir=config_dir,
             wallet_location=wallet_location, wallet_password=wallet_password)
 
+        self._init_template()
+
     def __enter__(self):
         return self
 
