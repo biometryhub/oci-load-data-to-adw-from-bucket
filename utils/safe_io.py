@@ -91,11 +91,17 @@ class DatabaseHandler:
         self.execute(create_statement)
 
     def execute(self, statement: str):
+        self._execute(statement)
+
+    def fetch(self, statement: str):
+        return self._execute(statement, True)
+
+    def _execute(self, statement: str, fetch: bool = False):
         with self.connection.cursor() as c:
             c.execute(statement)
-            rows = c.fetchall()
-
-        return rows
+            if fetch:
+                rows = c.fetchall()
+                return rows
 
     def _init_template(self):
         self.template = {
@@ -109,6 +115,5 @@ class DatabaseHandler:
                         column_list => '{column_definition}'
                     );
                 END;
-                /
             '''
         }
