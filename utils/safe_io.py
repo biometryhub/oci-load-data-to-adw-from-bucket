@@ -82,7 +82,8 @@ class DatabaseHandler:
         self.connection.close()
 
     def create_table(self, table_name: str, target_uri: str,
-                     column_definition: str, credential_name: str = ''):
+                     column_definition: str,
+                     credential_name: str = 'BUCKET_CLIENT_1'):
         logging.getLogger().info(f'Creating table {table_name}')
         create_statement = self.template['create_table'].format(
             table_name=table_name, credential_name=credential_name,
