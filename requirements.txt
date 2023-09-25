@@ -1,5 +1,6 @@
 fdk>=0.1.60
 oci
+oracledb
 PyYAML
 pandas
 pyarrow

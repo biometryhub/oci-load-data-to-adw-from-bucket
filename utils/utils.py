@@ -1,6 +1,9 @@
+from datetime import datetime, timezone
+import hashlib
 from io import StringIO
 from os import path
 import pandas as pd
+from typing import Tuple
 import re
 from .config import CLIENT
 
@@ -14,9 +17,34 @@ def create_client_path(client_number: str, object_path: str):
     return path.join(f'client_{client_number}', object_path)
 
 
-def get_bucket_uri(namespace: str, bucket_name: str,
-                   region: str = 'ap-melbourne-1'):
-    return f'https://objectstorage.{region}.oraclecloud.com/n/{namespace}/b/{bucket_name}/o'
+def current_utc():
+    return datetime.now(timezone.utc)
+
+
+def get_passwords() -> Tuple[str, str]:
+    with open('./admin_password', 'r') as f:
+        admin_password = f.read().strip()
+
+    with open('./wallet_password', 'r') as f:
+        wallet_password = f.read().strip()
+
+    return admin_password, wallet_password
+
+
+def hash_data(data: bytes):
+    return hashlib.md5(data).hexdigest()
+
+
+def hash_file(file_path: str, buf_size: int = 65536):
+    md5 = hashlib.md5()
+    with open(file_path, 'rb') as f:
+        while True:
+            data = f.read(buf_size)
+            if not data:
+                break
+            md5.update(data)
+
+    return md5.hexdigest()
 
 
 def read_bytes(b: bytes, **kwargs):

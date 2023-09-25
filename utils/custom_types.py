@@ -35,7 +35,7 @@ class ObjectCreateEventPayload(TypedDict):
     data: Data
 
 
-class ObjectInfo(TypedDict):
+class ObjectInfo:
     archival_state: str
     etag: str
     md5: str

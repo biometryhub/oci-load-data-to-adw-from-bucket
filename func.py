@@ -5,9 +5,9 @@ import oci
 from fdk import response
 
 from utils.custom_types import ObjectCreateEventPayload
-from utils.processor import create_target_path, process_df
+from utils.processor import Processor
 from utils.safe_io import BucketHandler, parse_config
-from utils.utils import read_bytes, validate_bucket
+from utils.utils import validate_bucket
 
 
 def handler(ctx, data: io.BytesIO = None):
@@ -31,13 +31,16 @@ def handler(ctx, data: io.BytesIO = None):
     logging.getLogger().info(f'Client {client_number} is triggering this job.')
 
     bucket_handler = BucketHandler(credential)
-    req = bucket_handler.get_object(bucket_name, object_path)
-    df = read_bytes(req.data.content)
-    process_df(df)
-    target_path = create_target_path(client_number, object_path)
-    bucket_handler.persist_object(df.to_parquet(), target_path)
-
-    logging.getLogger().info('some process')
+    processor = Processor(
+        bucket_handler, bucket_name, object_path, client_number)
+    processor.execute()
+    # req = bucket_handler.get_object(bucket_name, object_path)
+    # df = read_bytes(req.data.content)
+    # process_df(df)
+    # target_path = create_target_path(client_number, object_path)
+    # parquet_data = df.to_parquet()
+    # bucket_handler.persist_object(parquet_data, processor.target_path)
+    # processor.success(parquet_data)
 
     return response.Response(
         ctx, response_data=json.dumps({"message": 'Success!'}),
