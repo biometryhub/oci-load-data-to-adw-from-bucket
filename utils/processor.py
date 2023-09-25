@@ -102,9 +102,9 @@ class Processor:
 
     def _set_paths(self):
         self.target_path = self._get_target_path()
-        self.target_folder = path.join(self.target_path.split('/')[:-1])
+        self.target_folder = path.join(*self.target_path.split('/')[:-1])
 
         self.table_name = self._get_table_name()
         self.target_files = self._get_target_files()
         self.success_path = self._get_success_path()
-        self.success_table = path.join(self.target_folder, 'table.SUCCESS')
+        self.success_table = path.join(*self.target_folder, 'table.SUCCESS')
