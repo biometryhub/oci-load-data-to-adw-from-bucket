@@ -23,26 +23,23 @@ def handler(ctx, data: io.BytesIO = None):
     except (Exception, ValueError) as ex:
         logging.getLogger().info('error parsing json payload: ' + str(ex))
 
+    res = response.Response(
+        ctx, response_data=json.dumps({"message": 'Success!'}),
+        headers={"Content-Type": "application/json"}
+    )
     client_number = validate_bucket(bucket_name)
     if client_number is None:
         logging.getLogger().info('Not a valid bucket, exiting!')
-        return
+        return res
 
     logging.getLogger().info(f'Client {client_number} is triggering this job.')
 
     bucket_handler = BucketHandler(credential)
+    if not bucket_handler.validate_object(bucket_name, object_path):
+        return res
+
     processor = Processor(
         bucket_handler, bucket_name, object_path, client_number)
     processor.execute()
-    # req = bucket_handler.get_object(bucket_name, object_path)
-    # df = read_bytes(req.data.content)
-    # process_df(df)
-    # target_path = create_target_path(client_number, object_path)
-    # parquet_data = df.to_parquet()
-    # bucket_handler.persist_object(parquet_data, processor.target_path)
-    # processor.success(parquet_data)
 
-    return response.Response(
-        ctx, response_data=json.dumps({"message": 'Success!'}),
-        headers={"Content-Type": "application/json"}
-    )
+    return res

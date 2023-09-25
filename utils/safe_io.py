@@ -1,7 +1,6 @@
 import logging
 import oci
 import oracledb
-import sys
 import yaml
 from .config import CLIENT, CONFIG
 from .custom_types import Objects
@@ -25,17 +24,6 @@ class BucketHandler:
         self.persist_uri = self.get_uri(CONFIG.BUCKET.PERSISTENCE)
 
     def get_object(self, bucket_name: str, object_path: str):
-        is_directory = self.is_directory(bucket_name, object_path)
-        if is_directory:
-            logging.getLogger().info(f'{object_path} is a directoy, exiting!')
-            sys.exit()
-
-        is_valid_object = utils.validate_object(object_path)
-        if not is_valid_object:
-            logging.getLogger().info(
-                f'{object_path} is not matching {CLIENT.VALID_FILE}, exiting!')
-            sys.exit()
-
         logging.getLogger().info(f'Loading {object_path} from {bucket_name}')
         req = self.client.get_object(self.namespace, bucket_name, object_path)
         return req
@@ -53,6 +41,20 @@ class BucketHandler:
                 return True
 
         return False
+
+    def validate_object(self, bucket_name: str, object_path: str):
+        is_directory = self.is_directory(bucket_name, object_path)
+        if is_directory:
+            logging.getLogger().info(f'{object_path} is a directoy, exiting!')
+            return False
+
+        is_valid_object = utils.validate_object(object_path)
+        if not is_valid_object:
+            logging.getLogger().info(
+                f'{object_path} is not matching {CLIENT.VALID_FILE}, exiting!')
+            return False
+
+        return True
 
     def persist_object(self, content: bytes, object_path: str):
         logging.getLogger().info(f'Writing to {object_path}')
@@ -110,7 +112,7 @@ class DatabaseHandler:
                     DBMS_CLOUD.CREATE_EXTERNAL_TABLE(
                         table_name => '{table_name}',
                         credential_name => '{credential_name}',
-                        file_uri_list => '{target_uri}/*.parquet',
+                        file_uri_list => '{target_uri}',
                         format => json_object('type' value 'parquet'),
                         column_list => '{column_definition}'
                     );
