@@ -4,6 +4,7 @@ import pandas as pd
 import re
 from typing import Tuple
 from . import utils
+from .config import BUCKET
 from .safe_io import BucketHandler, DatabaseHandler
 
 
@@ -78,7 +79,7 @@ class Processor:
 
     def is_table_exist(self):
         return bool(self.bucket_handler.list_objects(
-            self.bucket_name, prefix=self.success_table))
+            BUCKET.PERSISTENCE, prefix=self.success_table))
 
     def success(self, content: bytes):
         success_time = utils.current_utc()
