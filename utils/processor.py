@@ -50,8 +50,12 @@ class Processor:
                     datetime_col = pd.to_datetime(df[col])
                     logging.getLogger().info(f'Parsing {col} to datetime')
                     df[col] = datetime_col
-                except pd._libs.tslibs.parsing.DateParseError:
+                except (pd._libs.tslibs.parsing.DateParseError,
+                        pd._libs.tslibs.np_datetime.OutOfBoundsDatetime):
                     pass
+                except Exception as e:
+                    logging.getLogger() \
+                        .error(f'Trying to parse {col} failed with {e}')
 
     def execute(self):
         self.process_object()
