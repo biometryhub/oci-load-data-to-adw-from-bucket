@@ -4,7 +4,7 @@ import pandas as pd
 import re
 from typing import Tuple
 from . import utils
-from .config import BUCKET
+from .config import BUCKET, DATABASE
 from .safe_io import BucketHandler, DatabaseHandler
 
 
@@ -37,7 +37,8 @@ class Processor:
             target_uri = path.join(
                 self.bucket_handler.persist_uri, self.target_files)
             db_handler.create_table(
-                self.table_name, target_uri, self.column_definition)
+                self.table_name, target_uri, self.column_definition,
+                DATABASE.CREDENTIAL_NAME)
 
         success_time = utils.current_utc()
         success_content = f'{self.table_name}|{success_time}'

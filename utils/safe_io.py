@@ -14,6 +14,7 @@ def parse_config(config_path: str):
     CONFIG.BUCKET.PERSISTENCE = config['bucket']['persistence']
     CONFIG.BUCKET.CLIENT.PATTERN = config['bucket']['client']['pattern']
     CONFIG.BUCKET.CLIENT.VALID_FILE = config['bucket']['client']['valid_file']
+    CONFIG.DATABASE.CREDENTIAL_NAME = config['database']['credential_name']
 
 
 class BucketHandler:
@@ -84,8 +85,7 @@ class DatabaseHandler:
         self.connection.close()
 
     def create_table(self, table_name: str, target_uri: str,
-                     column_definition: str,
-                     credential_name: str = 'BUCKET_CLIENT_1'):
+                     column_definition: str, credential_name: str):
         logging.getLogger().info(f'Creating table {table_name}')
         create_statement = self.template['create_table'].format(
             table_name=table_name, credential_name=credential_name,

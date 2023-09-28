@@ -8,5 +8,10 @@ class BUCKET:
     CLIENT = CLIENT
 
 
+class DATABASE:
+    CREDENTIAL_NAME = ''
+
+
 class CONFIG:
     BUCKET = BUCKET
+    DATABASE = DATABASE
