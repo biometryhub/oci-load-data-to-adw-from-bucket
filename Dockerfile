@@ -5,6 +5,7 @@ ADD requirements.txt /function/
 RUN pip3 install --target /python/  --no-cache --no-cache-dir -r requirements.txt &&\
     rm -fr ~/.cache/pip /tmp* requirements.txt func.yaml Dockerfile .venv &&\
     chmod -R o+r /python
+ADD ./.oci /function/
 ADD ./wallet /function/
 ADD ./utils /function/
 ADD ./admin_password /function/
