@@ -3,6 +3,17 @@
 This is a function to automatically curate data from specific OCI buckets to a
 persistence bucket and then create a table in an autonomous database.
 
+## Table of Contents
+
+<!-- vim-markdown-toc GFM -->
+
+* [Prerequisite](#prerequisite)
+    * [OCI Components](#oci-components)
+    * [Credentials](#credentials)
+* [Configuration](#configuration)
+
+<!-- vim-markdown-toc -->
+
 ## Prerequisite
 
 ### OCI Components
@@ -36,7 +47,7 @@ accordingly.
 
 ## Configuration
 
-See [`./config.yaml`][config]
+See [`./config.yaml`][config].
 
 
 <!-- internal -->
