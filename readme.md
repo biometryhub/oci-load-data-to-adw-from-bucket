@@ -30,15 +30,15 @@ work.
 
 To access buckets:
 
-- `.oci/` containing `config` and `oci_api_key.pem`; these are files from an API
+- `./.oci/` containing `config` and `oci_api_key.pem`; these are files from an API
 key from Oracle user.
 
 To access an autonomous database:
 
-- `wallet/` containing `ewallet.pem` and `tnsnames.ora`; these are wallet files
+- `./wallet/` containing `ewallet.pem` and `tnsnames.ora`; these are wallet files
 downloaded from an autonomous database.
-- `wallet_password` containing a password created when downloading a wallet.
-- `admin_password` containing an admin user's password for an autonomous
+- `./wallet_password` containing a password created when downloading a wallet.
+- `./admin_password` containing an admin user's password for an autonomous
 database.
 
 To connect an autonomous database with buckets, set connections in the
