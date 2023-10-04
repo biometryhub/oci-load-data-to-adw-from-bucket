@@ -4,6 +4,6 @@ bucket:
     # regex pattern
     pattern: workshop-data-lake-client-(\d+)
     # regex pattern
-    valid_file: .*.csv
+    valid_file: .*/.*.csv
 database:
   credential_name: BUCKET_CLIENT_1
